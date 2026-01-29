@@ -7,16 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Lalezar&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6C63FF;
-            --secondary: #2D3561;
-            --accent: #FF6584;
-            --dark: #1A1D2E;
-            --darker: #151729;
-            --success: #4CAF50;
-            --danger: #FF5252;
-            --text-light: #F5F5F5;
-            --soft-purple: #9D8DF1;
-            --soft-blue: #5B7C99;
+            --primary: #E6B17E;
+            --secondary: #2C2416;
+            --accent: #D4915D;
+            --dark: #1A1410;
+            --darker: #0F0A06;
+            --success: #8BC34A;
+            --danger: #FF6B6B;
+            --text-light: #F5F1E8;
+            --soft-beige: #F4E4C1;
+            --soft-brown: #8B6F47;
+            --orange-accent: #E07A38;
         }
 
         * {
@@ -27,7 +28,7 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #1A1D2E 0%, #2D3561 50%, #1A1D2E 100%);
+            background: linear-gradient(135deg, #1A1410 0%, #2C2416 50%, #1A1410 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -46,20 +47,20 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(157, 141, 241, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(230, 177, 126, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 145, 93, 0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
 
         .game-container {
-            background: linear-gradient(135deg, rgba(44, 53, 97, 0.9) 0%, rgba(26, 29, 46, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(44, 36, 22, 0.95) 0%, rgba(26, 20, 16, 0.98) 100%);
             border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
             padding: 40px;
             max-width: 1100px;
             width: 100%;
-            border: 2px solid rgba(108, 99, 255, 0.3);
+            border: 3px solid rgba(230, 177, 126, 0.4);
             position: relative;
             z-index: 1;
             backdrop-filter: blur(10px);
@@ -68,22 +69,22 @@
         h1 {
             font-family: 'Lalezar', cursive;
             font-size: 3.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-align: center;
             margin-bottom: 10px;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
         }
 
         .subtitle {
             text-align: center;
-            color: var(--text-light);
+            color: var(--soft-beige);
             font-size: 1.3rem;
             margin-bottom: 30px;
             font-weight: 600;
-            opacity: 0.9;
+            opacity: 0.95;
         }
 
         .score-board {
@@ -95,13 +96,13 @@
         }
 
         .score-item {
-            background: linear-gradient(135deg, rgba(108, 99, 255, 0.2), rgba(157, 141, 241, 0.2));
+            background: linear-gradient(135deg, rgba(230, 177, 126, 0.15), rgba(212, 145, 93, 0.15));
             color: var(--text-light);
             padding: 18px 35px;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            border: 2px solid rgba(108, 99, 255, 0.4);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            border: 2px solid rgba(230, 177, 126, 0.3);
             backdrop-filter: blur(10px);
         }
 
@@ -122,64 +123,66 @@
             position: relative;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            gap: 30px;
+            align-items: center;
+            gap: 40px;
             flex-wrap: wrap;
         }
 
         .wrestler-image {
-            width: 350px;
-            height: 350px;
+            width: 400px;
+            height: 400px;
             object-fit: contain;
             filter: drop-shadow(0 15px 40px rgba(0,0,0,0.6));
             position: relative;
             z-index: 1;
+            order: 2;
         }
 
         .speech-bubble {
-            background: linear-gradient(135deg, rgba(52, 73, 94, 0.95), rgba(44, 62, 80, 0.95));
+            background: linear-gradient(135deg, rgba(230, 177, 126, 0.25), rgba(212, 145, 93, 0.25));
             border: 4px solid var(--primary);
-            border-radius: 25px;
-            padding: 25px 35px;
+            border-radius: 30px;
+            padding: 35px 45px;
             position: relative;
             display: inline-block;
-            max-width: 450px;
-            min-width: 300px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
+            max-width: 550px;
+            min-width: 400px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(15px);
             align-self: center;
+            order: 1;
         }
 
         .speech-bubble::before {
             content: '';
             position: absolute;
-            left: -20px;
+            right: -25px;
             top: 50%;
             transform: translateY(-50%);
-            border-top: 20px solid transparent;
-            border-bottom: 20px solid transparent;
-            border-right: 20px solid var(--primary);
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            border-left: 25px solid var(--primary);
         }
 
         .speech-bubble::after {
             content: '';
             position: absolute;
-            left: -12px;
+            right: -17px;
             top: 50%;
             transform: translateY(-50%);
-            border-top: 15px solid transparent;
-            border-bottom: 15px solid transparent;
-            border-right: 15px solid rgba(52, 73, 94, 0.95);
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid rgba(230, 177, 126, 0.25);
         }
 
         .speech-text {
             font-family: 'Lalezar', cursive;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             color: var(--text-light);
             font-weight: 700;
-            line-height: 1.4;
+            line-height: 1.5;
             text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
         }
 
         .cups-container {
@@ -219,9 +222,9 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(180deg, 
-                #FF6584 0%, 
-                #FF4D6D 50%, 
-                #D63447 100%
+                #E07A38 0%, 
+                #D4915D 50%, 
+                #B8753F 100%
             );
             border-radius: 0 0 20px 20px;
             clip-path: polygon(
@@ -242,7 +245,7 @@
             transform: translateX(-50%);
             width: 95%;
             height: 15px;
-            background: linear-gradient(180deg, #FF6584, #FF4D6D);
+            background: linear-gradient(180deg, #E07A38, #D4915D);
             border-radius: 50%;
             box-shadow: 
                 0 3px 10px rgba(0,0,0,0.4),
@@ -267,7 +270,7 @@
             top: -35px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--soft-purple), var(--primary));
+            background: linear-gradient(135deg, var(--accent), var(--orange-accent));
             color: white;
             width: 45px;
             height: 45px;
@@ -277,7 +280,7 @@
             justify-content: center;
             font-weight: 900;
             font-size: 1.4rem;
-            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.5);
+            box-shadow: 0 5px 20px rgba(224, 122, 56, 0.5);
             border: 3px solid rgba(255,255,255,0.3);
             z-index: 11;
         }
@@ -291,7 +294,7 @@
             z-index: 5;
             opacity: 0;
             pointer-events: none;
-            filter: drop-shadow(0 5px 15px rgba(108, 99, 255, 0.5));
+            filter: drop-shadow(0 5px 15px rgba(230, 177, 126, 0.6));
             transition: opacity 0.3s ease;
         }
 
@@ -327,25 +330,25 @@
         }
 
         .btn-start {
-            background: linear-gradient(135deg, var(--success), #45A049);
+            background: linear-gradient(135deg, var(--success), #7CB342);
             color: white;
             border: 2px solid rgba(255,255,255,0.3);
         }
 
         .btn-start:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
+            box-shadow: 0 8px 25px rgba(139, 195, 74, 0.5);
         }
 
         .btn-reset {
-            background: linear-gradient(135deg, var(--accent), #FF4757);
+            background: linear-gradient(135deg, var(--danger), #E85D5D);
             color: white;
             border: 2px solid rgba(255,255,255,0.3);
         }
 
         .btn-reset:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 101, 132, 0.5);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
         }
 
         button:disabled {
@@ -367,15 +370,15 @@
         }
 
         .result-message.success {
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(69, 160, 73, 0.9));
+            background: linear-gradient(135deg, rgba(139, 195, 74, 0.9), rgba(124, 179, 66, 0.9));
             color: white;
-            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 5px 20px rgba(139, 195, 74, 0.5);
         }
 
         .result-message.fail {
-            background: linear-gradient(135deg, rgba(255, 101, 132, 0.9), rgba(255, 71, 87, 0.9));
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(232, 93, 93, 0.9));
             color: white;
-            box-shadow: 0 5px 20px rgba(255, 101, 132, 0.4);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
         }
 
         .difficulty-selector {
@@ -389,22 +392,22 @@
         .difficulty-btn {
             padding: 12px 30px;
             font-size: 1.05rem;
-            background: rgba(108, 99, 255, 0.15);
+            background: rgba(230, 177, 126, 0.12);
             color: var(--text-light);
             border: 2px solid var(--primary);
             transition: all 0.3s ease;
         }
 
         .difficulty-btn:hover {
-            background: rgba(108, 99, 255, 0.25);
+            background: rgba(230, 177, 126, 0.22);
             transform: translateY(-2px);
         }
 
         .difficulty-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--soft-purple));
-            color: white;
-            border-color: var(--soft-purple);
-            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.4);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--dark);
+            border-color: var(--accent);
+            box-shadow: 0 5px 20px rgba(230, 177, 126, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -422,28 +425,34 @@
             }
 
             .wrestler-image {
-                width: 250px;
-                height: 250px;
+                width: 280px;
+                height: 280px;
+                order: 1;
             }
 
             .speech-bubble {
-                min-width: 280px;
+                min-width: 300px;
+                max-width: 90%;
+                padding: 25px 30px;
+                order: 2;
             }
 
             .speech-bubble::before {
+                right: auto;
                 left: 50%;
-                top: -20px;
+                top: -25px;
                 transform: translateX(-50%) rotate(90deg);
             }
 
             .speech-bubble::after {
+                right: auto;
                 left: 50%;
-                top: -12px;
+                top: -17px;
                 transform: translateX(-50%) rotate(90deg);
             }
 
             .speech-text {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
             }
             
             .cup {
