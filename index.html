@@ -604,22 +604,31 @@
             attachClickEvents() {
                 // الحصول على جميع الأكواب الحالية في DOM
                 const allWrappers = this.cupsContainer.querySelectorAll('.cup-wrapper');
-                allWrappers.forEach((wrapper, index) => {
-                    // إزالة الأحداث القديمة
+                
+                // إزالة جميع الأحداث القديمة وإعادة إضافتها
+                allWrappers.forEach((wrapper) => {
+                    // إنشاء نسخة جديدة لإزالة الأحداث القديمة
                     const newWrapper = wrapper.cloneNode(true);
                     wrapper.replaceWith(newWrapper);
                     
-                    // إضافة حدث جديد بناءً على الموقع الحالي
-                    newWrapper.addEventListener('click', () => {
-                        // البحث عن الكوب في cupsArray بناءً على عنصر wrapper
-                        const cupIndex = this.cupsArray.findIndex(item => 
-                            item.number.textContent === newWrapper.querySelector('.cup-number').textContent
-                        );
+                    // تحديث المرجع في cupsArray
+                    const cupNumber = newWrapper.querySelector('.cup-number').textContent;
+                    const cupInArray = this.cupsArray.find(item => 
+                        item.number.textContent === cupNumber
+                    );
+                    
+                    if (cupInArray) {
+                        // تحديث المراجع
+                        cupInArray.wrapper = newWrapper;
+                        cupInArray.cup = newWrapper.querySelector('.cup');
+                        cupInArray.pants = newWrapper.querySelector('.pants');
+                        cupInArray.number = newWrapper.querySelector('.cup-number');
                         
-                        // الآن نستخدم الرقم المعروض للوصول للكوب الصحيح
-                        const displayedNumber = parseInt(newWrapper.querySelector('.cup-number').textContent);
-                        this.checkGuessByNumber(displayedNumber);
-                    });
+                        // إضافة حدث الضغط
+                        newWrapper.addEventListener('click', () => {
+                            this.checkGuessByNumber(parseInt(cupNumber));
+                        });
+                    }
                 });
             }
 
@@ -629,16 +638,14 @@
                 this.canGuess = false;
 
                 // البحث عن الكوب بناءً على الرقم المعروض
-                const cupIndex = cupNumber - 1; // الرقم يبدأ من 1، الفهرس من 0
+                const cupData = this.cupsArray.find(item => 
+                    item.number.textContent === cupNumber.toString()
+                );
                 
-                // الحصول على جميع الأكواب حسب ترتيبها الحالي في DOM
-                const allWrappers = Array.from(this.cupsContainer.querySelectorAll('.cup-wrapper'));
-                const selectedWrapper = allWrappers[cupIndex];
-                
-                // البحث عن البيانات المقابلة في cupsArray
-                const cupData = this.cupsArray.find(item => item.wrapper === selectedWrapper);
-                
-                if (!cupData) return;
+                if (!cupData) {
+                    console.error('Cup not found:', cupNumber);
+                    return;
+                }
 
                 // رفع الكوب المختار
                 cupData.cup.classList.remove('covered');
@@ -734,9 +741,13 @@
                         idx2 = Math.floor(Math.random() * this.cupsCount);
                     }
 
+                    // حفظ مرجع العناصر قبل التبديل
+                    const cup1 = this.cupsArray[idx1].cup;
+                    const cup2 = this.cupsArray[idx2].cup;
+
                     // تأثير الحركة
-                    this.cupsArray[idx1].cup.style.animation = 'shuffle 0.4s ease-in-out';
-                    this.cupsArray[idx2].cup.style.animation = 'shuffle 0.4s ease-in-out';
+                    cup1.style.animation = 'shuffle 0.4s ease-in-out';
+                    cup2.style.animation = 'shuffle 0.4s ease-in-out';
 
                     await this.sleep(200);
 
@@ -744,8 +755,8 @@
                     await this.swapCups(idx1, idx2);
 
                     // إزالة الأنيميشن
-                    this.cupsArray[idx1].cup.style.animation = '';
-                    this.cupsArray[idx2].cup.style.animation = '';
+                    cup1.style.animation = '';
+                    cup2.style.animation = '';
 
                     await this.sleep(currentSpeed);
                 }
