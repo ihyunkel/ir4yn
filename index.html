@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أين السروال؟ 🩳</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Lalezar&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4ECDC4;
+            --secondary: #2C3E50;
+            --accent: #F39C12;
+            --dark: #1A1A2E;
+            --darker: #16213E;
+            --success: #27AE60;
+            --danger: #E74C3C;
+            --text-light: #E8E8E8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            padding: 40px;
+            max-width: 1000px;
+            width: 100%;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+        }
+
+        h1 {
+            font-family: 'Lalezar', cursive;
+            font-size: 3rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0px rgba(243, 156, 18, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .score-item {
+            background: linear-gradient(135deg, var(--darker), #1A1A2E);
+            color: var(--text-light);
+            padding: 15px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid rgba(78, 205, 196, 0.2);
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .score-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-top: 5px;
+        }
+
+        .wrestler-section {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wrestler-image {
+            width: 300px;
+            height: 300px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+            position: relative;
+            z-index: 1;
+        }
+
+        .table-section {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -50px;
+        }
+
+        .table {
+            width: 90%;
+            max-width: 800px;
+            height: 60px;
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.5),
+                inset 0 2px 5px rgba(255,255,255,0.2),
+                inset 0 -2px 5px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+            border: 3px solid #A0522D;
+        }
+
+        .table::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 10%;
+            width: 15px;
+            height: 80px;
+            background: linear-gradient(180deg, #654321, #4A3728);
+            border-radius: 5px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+        }
+
+        .table::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 10%;
+            width: 15px;
+            height: 80px;
+            background: linear-gradient(180deg, #654321, #4A3728);
+            border-radius: 5px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+        }
+
+        .speech-bubble {
+            background: linear-gradient(135deg, #34495E, #2C3E50);
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            padding: 15px 20px;
+            position: relative;
+            display: inline-block;
+            margin: 10px auto 0;
+            max-width: 450px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 15px solid var(--primary);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 12px solid #34495E;
+        }
+
+        .speech-text {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .cups-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: -30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            perspective: 1000px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .cup-wrapper {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 200px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .cup {
+            width: 120px;
+            height: 140px;
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        }
+
+        /* رسم الكوب باستخدام CSS */
+        .cup::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                #E74C3C 0%, 
+                #C0392B 50%, 
+                #A93226 100%
+            );
+            border-radius: 0 0 20px 20px;
+            clip-path: polygon(
+                15% 0%, 85% 0%,
+                100% 100%, 0% 100%
+            );
+            box-shadow: 
+                inset 0 -10px 20px rgba(0,0,0,0.3),
+                inset 0 5px 10px rgba(255,255,255,0.2);
+        }
+
+        /* حافة الكوب العلوية */
+        .cup::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            height: 15px;
+            background: linear-gradient(180deg, #E74C3C, #C0392B);
+            border-radius: 50%;
+            box-shadow: 
+                0 3px 10px rgba(0,0,0,0.4),
+                inset 0 -3px 5px rgba(0,0,0,0.3);
+        }
+
+        .cup.lifted {
+            transform: translateY(-100px);
+        }
+
+        .cup.covered {
+            transform: translateY(0);
+        }
+
+        .cup:hover:not(.no-hover) {
+            transform: translateY(-5px) scale(1.03);
+            filter: drop-shadow(0 15px 25px rgba(231, 76, 60, 0.4));
+        }
+
+        .cup-number {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), #3DBDB4);
+            color: var(--darker);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.3rem;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+            border: 2px solid rgba(255,255,255,0.2);
+            z-index: 11;
+        }
+
+        .pants {
+            font-size: 3rem;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+            transition: opacity 0.3s ease;
+        }
+
+        .pants.show {
+            opacity: 1;
+        }
+
+        @keyframes shuffle {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-25px) rotate(-8deg) scale(1.05); }
+            50% { transform: translateY(-20px) rotate(0deg) scale(1.05); }
+            75% { transform: translateY(-25px) rotate(8deg) scale(1.05); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--success), #229954);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, var(--danger), #C0392B);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .result-message {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .result-message.success {
+            background: linear-gradient(135deg, #27AE60, #229954);
+            color: white;
+        }
+
+        .result-message.fail {
+            background: linear-gradient(135deg, #E74C3C, #C0392B);
+            color: white;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-btn {
+            padding: 10px 25px;
+            font-size: 1rem;
+            background: rgba(78, 205, 196, 0.1);
+            color: var(--text-light);
+            border: 2px solid var(--primary);
+        }
+
+        .difficulty-btn.active {
+            background: var(--primary);
+            color: var(--darker);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .wrestler-image {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .cup {
+                width: 90px;
+                height: 110px;
+            }
+            
+            .speech-text {
+                font-size: 1rem;
+            }
+
+            .table {
+                width: 95%;
+                height: 50px;
+            }
+
+            .cups-container {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🩳 أين السروال؟ 🩳</h1>
+        <p class="subtitle">ساعد المصارع لمّح في إيجاد سرواله!</p>
+
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">النقاط</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">الإجابات الصحيحة</div>
+                <div class="score-value" id="correct">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">الإجابات الخاطئة</div>
+                <div class="score-value" id="wrong">0</div>
+            </div>
+        </div>
+
+        <div class="difficulty-selector">
+            <button class="difficulty-btn active" data-cups="4" data-speed="800">سهل (4 أكواب)</button>
+            <button class="difficulty-btn" data-cups="5" data-speed="500">صعب (5 أكواب)</button>
+        </div>
+
+        <div class="wrestler-section">
+            <img src="wrestler.png" alt="المصارع لمّح" class="wrestler-image">
+            <div class="speech-bubble">
+                <div class="speech-text" id="speechText">ساعدوني أعرف وين سروالي؟ 🤔</div>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <div class="table"></div>
+        </div>
+
+        <div class="cups-container" id="cupsContainer">
+            <!-- الأكواب ستُنشأ هنا بواسطة JavaScript -->
+        </div>
+
+        <div class="controls">
+            <button class="btn-start" id="startBtn">ابدأ اللعب 🎮</button>
+            <button class="btn-reset" id="resetBtn">إعادة تعيين 🔄</button>
+        </div>
+
+        <div class="result-message" id="resultMessage" style="opacity: 0;"></div>
+    </div>
+
+    <script>
+        class PantsGame {
+            constructor() {
+                this.cupsCount = 4;
+                this.pantsPosition = 0;
+                this.isPlaying = false;
+                this.canGuess = false;
+                this.score = 0;
+                this.correct = 0;
+                this.wrong = 0;
+                this.baseShuffleSpeed = 600;
+                this.shuffleIterations = 10;
+                this.cupsArray = [];
+                
+                this.init();
+            }
+
+            init() {
+                this.cupsContainer = document.getElementById('cupsContainer');
+                this.startBtn = document.getElementById('startBtn');
+                this.resetBtn = document.getElementById('resetBtn');
+                this.speechText = document.getElementById('speechText');
+                this.resultMessage = document.getElementById('resultMessage');
+                this.scoreDisplay = document.getElementById('score');
+                this.correctDisplay = document.getElementById('correct');
+                this.wrongDisplay = document.getElementById('wrong');
+
+                this.setupEventListeners();
+                this.createCups();
+            }
+
+            setupEventListeners() {
+                this.startBtn.addEventListener('click', () => this.startGame());
+                this.resetBtn.addEventListener('click', () => this.resetGame());
+
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        if (this.isPlaying) return;
+                        
+                        document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        
+                        this.cupsCount = parseInt(e.target.dataset.cups);
+                        this.baseShuffleSpeed = parseInt(e.target.dataset.speed);
+                        this.shuffleIterations = this.cupsCount === 5 ? 15 : 10;
+                        this.createCups();
+                    });
+                });
+            }
+
+            createCups() {
+                this.cupsContainer.innerHTML = '';
+                this.pantsPosition = Math.floor(Math.random() * this.cupsCount);
+                this.cupsArray = [];
+
+                for (let i = 0; i < this.cupsCount; i++) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'cup-wrapper';
+                    wrapper.dataset.index = i;
+
+                    const cupNumber = document.createElement('div');
+                    cupNumber.className = 'cup-number';
+                    cupNumber.textContent = i + 1;
+
+                    const cup = document.createElement('div');
+                    cup.className = 'cup lifted';
+
+                    const pants = document.createElement('div');
+                    pants.className = 'pants';
+                    if (i === this.pantsPosition) {
+                        pants.textContent = '🩳';
+                        pants.classList.add('show'); // إظهار السروال في البداية فقط
+                    }
+
+                    wrapper.appendChild(cupNumber);
+                    wrapper.appendChild(cup);
+                    wrapper.appendChild(pants);
+
+                    wrapper.addEventListener('click', () => this.checkGuess(i));
+                    this.cupsContainer.appendChild(wrapper);
+                    
+                    this.cupsArray.push({
+                        wrapper: wrapper,
+                        cup: cup,
+                        pants: pants,
+                        number: cupNumber,
+                        hasPants: i === this.pantsPosition
+                    });
+                }
+
+                this.canGuess = false;
+                this.speechText.textContent = 'ساعدوني أعرف وين سروالي؟ 🤔';
+                this.resultMessage.style.opacity = '0';
+            }
+
+            async startGame() {
+                if (this.isPlaying) return;
+
+                this.isPlaying = true;
+                this.canGuess = false;
+                this.startBtn.disabled = true;
+                
+                // إظهار السروال
+                this.speechText.textContent = 'شوف السروال كويس! راقب الأكواب 👀';
+                await this.sleep(2000);
+
+                // إخفاء السروال وإنزال الأكواب لتغطيته
+                this.speechText.textContent = 'الحين راح أغطي السروال... راقب! 🧐';
+                this.cupsArray.forEach(item => {
+                    item.pants.classList.remove('show'); // إخفاء السروال
+                    item.cup.classList.remove('lifted');
+                    item.cup.classList.add('covered');
+                    item.cup.classList.add('no-hover');
+                });
+                
+                await this.sleep(800);
+
+                // خلط الأكواب بسرعة تصاعدية
+                this.speechText.textContent = 'الحين راح أخلط الأكواب... ركز! 🔄';
+                await this.shuffleCups();
+
+                // المصارع يكذب
+                const wrongGuess = this.getWrongGuess();
+                this.speechText.textContent = `السروال تحت الكوب رقم ${wrongGuess} وإذا غلط بندوني! 😏`;
+
+                this.cupsArray.forEach(item => {
+                    item.cup.classList.remove('no-hover');
+                });
+
+                this.startBtn.disabled = false;
+                this.isPlaying = false;
+                this.canGuess = true;
+            }
+
+            async shuffleCups() {
+                for (let i = 0; i < this.shuffleIterations; i++) {
+                    // السرعة تتصاعد (تقل) مع كل تكرار
+                    const currentSpeed = Math.max(200, this.baseShuffleSpeed - (i * 40));
+                    
+                    // اختيار كوبين عشوائيين للتبديل
+                    const idx1 = Math.floor(Math.random() * this.cupsCount);
+                    let idx2 = Math.floor(Math.random() * this.cupsCount);
+                    while (idx2 === idx1) {
+                        idx2 = Math.floor(Math.random() * this.cupsCount);
+                    }
+
+                    // تأثير الحركة
+                    this.cupsArray[idx1].cup.style.animation = 'shuffle 0.4s ease-in-out';
+                    this.cupsArray[idx2].cup.style.animation = 'shuffle 0.4s ease-in-out';
+
+                    await this.sleep(200);
+
+                    // تبديل الأكواب فعلياً في DOM
+                    await this.swapCups(idx1, idx2);
+
+                    // إزالة الأنيميشن
+                    this.cupsArray[idx1].cup.style.animation = '';
+                    this.cupsArray[idx2].cup.style.animation = '';
+
+                    await this.sleep(currentSpeed);
+                }
+            }
+
+            async swapCups(idx1, idx2) {
+                const container = this.cupsContainer;
+                
+                // الحصول على العناصر
+                const wrapper1 = this.cupsArray[idx1].wrapper;
+                const wrapper2 = this.cupsArray[idx2].wrapper;
+
+                // حساب المسافة للأنيميشن
+                const rect1 = wrapper1.getBoundingClientRect();
+                const rect2 = wrapper2.getBoundingClientRect();
+                const distance = rect2.left - rect1.left;
+
+                // تطبيق الحركة
+                wrapper1.style.transform = `translateX(${distance}px)`;
+                wrapper2.style.transform = `translateX(${-distance}px)`;
+                wrapper1.style.transition = 'transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                wrapper2.style.transition = 'transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+
+                await this.sleep(400);
+
+                // إزالة التحويلات
+                wrapper1.style.transform = '';
+                wrapper2.style.transform = '';
+                wrapper1.style.transition = '';
+                wrapper2.style.transition = '';
+
+                // تبديل في DOM
+                const parent = wrapper1.parentNode;
+                const next1 = wrapper1.nextSibling;
+                const next2 = wrapper2.nextSibling;
+
+                if (next2 === wrapper1) {
+                    parent.insertBefore(wrapper1, wrapper2);
+                } else if (next1 === wrapper2) {
+                    parent.insertBefore(wrapper2, wrapper1);
+                } else {
+                    parent.insertBefore(wrapper1, next2);
+                    parent.insertBefore(wrapper2, next1);
+                }
+
+                // تبديل في المصفوفة
+                [this.cupsArray[idx1], this.cupsArray[idx2]] = [this.cupsArray[idx2], this.cupsArray[idx1]];
+
+                // تحديث الأرقام
+                this.cupsArray.forEach((item, index) => {
+                    item.number.textContent = index + 1;
+                    item.wrapper.dataset.index = index;
+                });
+
+                // تحديث موقع السروال
+                if (this.cupsArray[idx1].hasPants) {
+                    this.pantsPosition = idx1;
+                } else if (this.cupsArray[idx2].hasPants) {
+                    this.pantsPosition = idx2;
+                }
+            }
+
+            checkGuess(index) {
+                if (!this.canGuess || this.isPlaying) return;
+
+                this.canGuess = false;
+
+                // رفع الكوب المختار فقط
+                this.cupsArray[index].cup.classList.remove('covered');
+                this.cupsArray[index].cup.classList.add('lifted');
+
+                if (this.cupsArray[index].hasPants) {
+                    // إظهار السروال
+                    this.cupsArray[index].pants.classList.add('show');
+                    
+                    this.correct++;
+                    this.score += 10;
+                    this.speechText.textContent = 'كيييييف؟ وقف وقف 😱';
+                    this.resultMessage.textContent = '✅ أحسنت! وجدت السروال!';
+                    this.resultMessage.className = 'result-message success';
+                } else {
+                    this.wrong++;
+                    this.score = Math.max(0, this.score - 5);
+                    this.speechText.textContent = '😭😭😭😭😭😭😭😭😭';
+                    this.resultMessage.textContent = '❌ حاول مرة أخرى!';
+                    this.resultMessage.className = 'result-message fail';
+                    
+                    // إظهار السروال الصحيح بعد ثانية
+                    setTimeout(() => {
+                        this.cupsArray.forEach((item, i) => {
+                            if (item.hasPants) {
+                                item.cup.classList.remove('covered');
+                                item.cup.classList.add('lifted');
+                                item.pants.classList.add('show');
+                            }
+                        });
+                    }, 1000);
+                }
+
+                this.resultMessage.style.opacity = '1';
+                this.updateScore();
+
+                setTimeout(() => {
+                    this.createCups();
+                }, 3500);
+            }
+
+            getWrongGuess() {
+                // الحصول على جميع الأرقام ما عدا الكوب الصحيح
+                const wrongCups = [];
+                for (let i = 0; i < this.cupsCount; i++) {
+                    if (!this.cupsArray[i].hasPants) {
+                        wrongCups.push(i + 1); // +1 لأن الأرقام تبدأ من 1
+                    }
+                }
+                // اختيار رقم عشوائي من الأكواب الخاطئة
+                return wrongCups[Math.floor(Math.random() * wrongCups.length)];
+            }
+
+            updateScore() {
+                this.scoreDisplay.textContent = this.score;
+                this.correctDisplay.textContent = this.correct;
+                this.wrongDisplay.textContent = this.wrong;
+            }
+
+            resetGame() {
+                this.score = 0;
+                this.correct = 0;
+                this.wrong = 0;
+                this.updateScore();
+                this.createCups();
+            }
+
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // بدء اللعبة
+        const game = new PantsGame();
+    </script>
+</body>
+</html>
