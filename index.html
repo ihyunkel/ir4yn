@@ -122,10 +122,10 @@
             margin-bottom: 40px;
             position: relative;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .wrestler-image {
@@ -135,7 +135,6 @@
             filter: drop-shadow(0 15px 40px rgba(0,0,0,0.6));
             position: relative;
             z-index: 1;
-            order: 2;
         }
 
         .speech-bubble {
@@ -145,34 +144,32 @@
             padding: 35px 45px;
             position: relative;
             display: inline-block;
-            max-width: 550px;
+            max-width: 600px;
             min-width: 400px;
             box-shadow: 0 15px 50px rgba(0,0,0,0.6);
             backdrop-filter: blur(15px);
-            align-self: center;
-            order: 1;
         }
 
         .speech-bubble::before {
             content: '';
             position: absolute;
-            right: -25px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-top: 25px solid transparent;
-            border-bottom: 25px solid transparent;
-            border-left: 25px solid var(--primary);
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 25px solid var(--primary);
         }
 
         .speech-bubble::after {
             content: '';
             position: absolute;
-            right: -17px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-top: 20px solid transparent;
-            border-bottom: 20px solid transparent;
-            border-left: 20px solid rgba(230, 177, 126, 0.25);
+            bottom: -17px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 20px solid rgba(230, 177, 126, 0.25);
         }
 
         .speech-text {
@@ -204,6 +201,34 @@
             align-items: center;
             min-height: 200px;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .cup-numbers-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        .cup-number-fixed {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--accent), var(--orange-accent));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.4rem;
+            box-shadow: 0 5px 20px rgba(224, 122, 56, 0.5);
+            border: 3px solid rgba(255,255,255,0.3);
         }
 
         .cup {
@@ -427,28 +452,24 @@
             .wrestler-image {
                 width: 280px;
                 height: 280px;
-                order: 1;
             }
 
             .speech-bubble {
                 min-width: 300px;
                 max-width: 90%;
                 padding: 25px 30px;
-                order: 2;
             }
 
             .speech-bubble::before {
-                right: auto;
+                bottom: -25px;
                 left: 50%;
-                top: -25px;
-                transform: translateX(-50%) rotate(90deg);
+                transform: translateX(-50%);
             }
 
             .speech-bubble::after {
-                right: auto;
+                bottom: -17px;
                 left: 50%;
-                top: -17px;
-                transform: translateX(-50%) rotate(90deg);
+                transform: translateX(-50%);
             }
 
             .speech-text {
@@ -462,6 +483,16 @@
 
             .cups-container {
                 gap: 20px;
+            }
+
+            .cup-numbers-container {
+                gap: 20px;
+            }
+
+            .cup-number-fixed {
+                width: 35px;
+                height: 35px;
+                font-size: 1.1rem;
             }
 
             .score-item {
@@ -569,13 +600,22 @@
                 this.pantsPosition = Math.floor(Math.random() * this.cupsCount);
                 this.cupsArray = [];
 
+                // إنشاء container للأرقام الثابتة
+                const numbersContainer = document.createElement('div');
+                numbersContainer.className = 'cup-numbers-container';
+                numbersContainer.id = 'cupsNumbers';
+                
                 for (let i = 0; i < this.cupsCount; i++) {
+                    // إنشاء الرقم الثابت
+                    const fixedNumber = document.createElement('div');
+                    fixedNumber.className = 'cup-number-fixed';
+                    fixedNumber.textContent = i + 1;
+                    numbersContainer.appendChild(fixedNumber);
+
+                    // إنشاء الكوب
                     const wrapper = document.createElement('div');
                     wrapper.className = 'cup-wrapper';
-
-                    const cupNumber = document.createElement('div');
-                    cupNumber.className = 'cup-number';
-                    cupNumber.textContent = i + 1;
+                    wrapper.dataset.originalIndex = i; // حفظ الفهرس الأصلي
 
                     const cup = document.createElement('div');
                     cup.className = 'cup lifted';
@@ -584,10 +624,9 @@
                     pants.className = 'pants';
                     if (i === this.pantsPosition) {
                         pants.textContent = '🩳';
-                        pants.classList.add('show'); // إظهار السروال في البداية فقط
+                        pants.classList.add('show');
                     }
 
-                    wrapper.appendChild(cupNumber);
                     wrapper.appendChild(cup);
                     wrapper.appendChild(pants);
 
@@ -597,10 +636,14 @@
                         wrapper: wrapper,
                         cup: cup,
                         pants: pants,
-                        number: cupNumber,
+                        originalIndex: i,
                         hasPants: i === this.pantsPosition
                     });
                 }
+
+                // إضافة container الأرقام فوق الأكواب
+                this.cupsContainer.style.position = 'relative';
+                this.cupsContainer.appendChild(numbersContainer);
 
                 // ربط أحداث الضغط
                 this.attachClickEvents();
@@ -615,15 +658,14 @@
                 const allWrappers = this.cupsContainer.querySelectorAll('.cup-wrapper');
                 
                 // إزالة جميع الأحداث القديمة وإعادة إضافتها
-                allWrappers.forEach((wrapper) => {
+                allWrappers.forEach((wrapper, positionIndex) => {
                     // إنشاء نسخة جديدة لإزالة الأحداث القديمة
                     const newWrapper = wrapper.cloneNode(true);
                     wrapper.replaceWith(newWrapper);
                     
-                    // تحديث المرجع في cupsArray
-                    const cupNumber = newWrapper.querySelector('.cup-number').textContent;
+                    // تحديث المراجع في cupsArray
                     const cupInArray = this.cupsArray.find(item => 
-                        item.number.textContent === cupNumber
+                        item.originalIndex === parseInt(wrapper.dataset.originalIndex)
                     );
                     
                     if (cupInArray) {
@@ -631,11 +673,10 @@
                         cupInArray.wrapper = newWrapper;
                         cupInArray.cup = newWrapper.querySelector('.cup');
                         cupInArray.pants = newWrapper.querySelector('.pants');
-                        cupInArray.number = newWrapper.querySelector('.cup-number');
                         
-                        // إضافة حدث الضغط
+                        // إضافة حدث الضغط - الآن الرقم هو positionIndex + 1
                         newWrapper.addEventListener('click', () => {
-                            this.checkGuessByNumber(parseInt(cupNumber));
+                            this.checkGuessByNumber(positionIndex + 1);
                         });
                     }
                 });
@@ -646,10 +687,12 @@
 
                 this.canGuess = false;
 
-                // البحث عن الكوب بناءً على الرقم المعروض
-                const cupData = this.cupsArray.find(item => 
-                    item.number.textContent === cupNumber.toString()
-                );
+                // الحصول على جميع الأكواب حسب ترتيبها الحالي في DOM
+                const allWrappers = Array.from(this.cupsContainer.querySelectorAll('.cup-wrapper'));
+                const selectedWrapper = allWrappers[cupNumber - 1]; // cupNumber يبدأ من 1
+                
+                // البحث عن البيانات المقابلة في cupsArray
+                const cupData = this.cupsArray.find(item => item.wrapper === selectedWrapper);
                 
                 if (!cupData) {
                     console.error('Cup not found:', cupNumber);
