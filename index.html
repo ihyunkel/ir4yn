@@ -7,14 +7,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Lalezar&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4ECDC4;
-            --secondary: #2C3E50;
-            --accent: #F39C12;
-            --dark: #1A1A2E;
-            --darker: #16213E;
-            --success: #27AE60;
-            --danger: #E74C3C;
-            --text-light: #E8E8E8;
+            --primary: #6C63FF;
+            --secondary: #2D3561;
+            --accent: #FF6584;
+            --dark: #1A1D2E;
+            --darker: #151729;
+            --success: #4CAF50;
+            --danger: #FF5252;
+            --text-light: #F5F5F5;
+            --soft-purple: #9D8DF1;
+            --soft-blue: #5B7C99;
         }
 
         * {
@@ -25,7 +27,7 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
+            background: linear-gradient(135deg, #1A1D2E 0%, #2D3561 50%, #1A1D2E 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -33,51 +35,74 @@
             justify-content: center;
             padding: 20px;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(157, 141, 241, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .game-container {
-            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            background: linear-gradient(135deg, rgba(44, 53, 97, 0.9) 0%, rgba(26, 29, 46, 0.95) 100%);
             border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             padding: 40px;
-            max-width: 1000px;
+            max-width: 1100px;
             width: 100%;
-            border: 2px solid rgba(78, 205, 196, 0.3);
+            border: 2px solid rgba(108, 99, 255, 0.3);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
         }
 
         h1 {
             font-family: 'Lalezar', cursive;
-            font-size: 3rem;
-            color: var(--primary);
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-align: center;
             margin-bottom: 10px;
-            text-shadow: 3px 3px 0px rgba(243, 156, 18, 0.5);
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
         }
 
         .subtitle {
             text-align: center;
             color: var(--text-light);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 30px;
             font-weight: 600;
+            opacity: 0.9;
         }
 
         .score-board {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             flex-wrap: wrap;
             gap: 15px;
         }
 
         .score-item {
-            background: linear-gradient(135deg, var(--darker), #1A1A2E);
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.2), rgba(157, 141, 241, 0.2));
             color: var(--text-light);
-            padding: 15px 30px;
-            border-radius: 15px;
+            padding: 18px 35px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 2px solid rgba(78, 205, 196, 0.2);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 2px solid rgba(108, 99, 255, 0.4);
+            backdrop-filter: blur(10px);
         }
 
         .score-label {
@@ -93,117 +118,75 @@
 
         .wrestler-section {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             position: relative;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: wrap;
         }
 
         .wrestler-image {
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             object-fit: contain;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 15px 40px rgba(0,0,0,0.6));
             position: relative;
             z-index: 1;
         }
 
-        .table-section {
-            position: relative;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: -50px;
-        }
-
-        .table {
-            width: 90%;
-            max-width: 800px;
-            height: 60px;
-            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
-            border-radius: 20px;
-            box-shadow: 
-                0 10px 30px rgba(0,0,0,0.5),
-                inset 0 2px 5px rgba(255,255,255,0.2),
-                inset 0 -2px 5px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-            border: 3px solid #A0522D;
-        }
-
-        .table::before {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 10%;
-            width: 15px;
-            height: 80px;
-            background: linear-gradient(180deg, #654321, #4A3728);
-            border-radius: 5px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-        }
-
-        .table::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            right: 10%;
-            width: 15px;
-            height: 80px;
-            background: linear-gradient(180deg, #654321, #4A3728);
-            border-radius: 5px;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-        }
-
         .speech-bubble {
-            background: linear-gradient(135deg, #34495E, #2C3E50);
-            border: 3px solid var(--primary);
-            border-radius: 20px;
-            padding: 15px 20px;
+            background: linear-gradient(135deg, rgba(52, 73, 94, 0.95), rgba(44, 62, 80, 0.95));
+            border: 4px solid var(--primary);
+            border-radius: 25px;
+            padding: 25px 35px;
             position: relative;
             display: inline-block;
-            margin: 10px auto 0;
             max-width: 450px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            min-width: 300px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            align-self: center;
         }
 
         .speech-bubble::before {
             content: '';
             position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 15px solid var(--primary);
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-right: 20px solid var(--primary);
         }
 
         .speech-bubble::after {
             content: '';
             position: absolute;
-            top: -9px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-bottom: 12px solid #34495E;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 15px solid rgba(52, 73, 94, 0.95);
         }
 
         .speech-text {
-            font-size: 1.2rem;
+            font-family: 'Lalezar', cursive;
+            font-size: 1.8rem;
             color: var(--text-light);
-            font-weight: 600;
+            font-weight: 700;
+            line-height: 1.4;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .cups-container {
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-top: -30px;
-            margin-bottom: 40px;
+            margin: 30px 0 40px 0;
             flex-wrap: wrap;
             perspective: 1000px;
             position: relative;
@@ -236,9 +219,9 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(180deg, 
-                #E74C3C 0%, 
-                #C0392B 50%, 
-                #A93226 100%
+                #FF6584 0%, 
+                #FF4D6D 50%, 
+                #D63447 100%
             );
             border-radius: 0 0 20px 20px;
             clip-path: polygon(
@@ -259,7 +242,7 @@
             transform: translateX(-50%);
             width: 95%;
             height: 15px;
-            background: linear-gradient(180deg, #E74C3C, #C0392B);
+            background: linear-gradient(180deg, #FF6584, #FF4D6D);
             border-radius: 50%;
             box-shadow: 
                 0 3px 10px rgba(0,0,0,0.4),
@@ -284,18 +267,18 @@
             top: -35px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--primary), #3DBDB4);
-            color: var(--darker);
-            width: 40px;
-            height: 40px;
+            background: linear-gradient(135deg, var(--soft-purple), var(--primary));
+            color: white;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 900;
-            font-size: 1.3rem;
-            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
-            border: 2px solid rgba(255,255,255,0.2);
+            font-size: 1.4rem;
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.5);
+            border: 3px solid rgba(255,255,255,0.3);
             z-index: 11;
         }
 
@@ -308,7 +291,7 @@
             z-index: 5;
             opacity: 0;
             pointer-events: none;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 5px 15px rgba(108, 99, 255, 0.5));
             transition: opacity 0.3s ease;
         }
 
@@ -344,25 +327,25 @@
         }
 
         .btn-start {
-            background: linear-gradient(135deg, var(--success), #229954);
+            background: linear-gradient(135deg, var(--success), #45A049);
             color: white;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
         }
 
         .btn-start:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
         }
 
         .btn-reset {
-            background: linear-gradient(135deg, var(--danger), #C0392B);
+            background: linear-gradient(135deg, var(--accent), #FF4757);
             color: white;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
         }
 
         .btn-reset:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+            box-shadow: 0 8px 25px rgba(255, 101, 132, 0.5);
         }
 
         button:disabled {
@@ -373,72 +356,107 @@
 
         .result-message {
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 15px;
+            margin-top: 25px;
+            padding: 22px;
+            border-radius: 20px;
             transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
         }
 
         .result-message.success {
-            background: linear-gradient(135deg, #27AE60, #229954);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(69, 160, 73, 0.9));
             color: white;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
         }
 
         .result-message.fail {
-            background: linear-gradient(135deg, #E74C3C, #C0392B);
+            background: linear-gradient(135deg, rgba(255, 101, 132, 0.9), rgba(255, 71, 87, 0.9));
             color: white;
+            box-shadow: 0 5px 20px rgba(255, 101, 132, 0.4);
         }
 
         .difficulty-selector {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
         .difficulty-btn {
-            padding: 10px 25px;
-            font-size: 1rem;
-            background: rgba(78, 205, 196, 0.1);
+            padding: 12px 30px;
+            font-size: 1.05rem;
+            background: rgba(108, 99, 255, 0.15);
             color: var(--text-light);
             border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-btn:hover {
+            background: rgba(108, 99, 255, 0.25);
+            transform: translateY(-2px);
         }
 
         .difficulty-btn.active {
-            background: var(--primary);
-            color: var(--darker);
+            background: linear-gradient(135deg, var(--primary), var(--soft-purple));
+            color: white;
+            border-color: var(--soft-purple);
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.4);
         }
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
             }
             
+            .wrestler-section {
+                flex-direction: column;
+                align-items: center;
+            }
+
             .wrestler-image {
-                width: 200px;
-                height: 200px;
+                width: 250px;
+                height: 250px;
+            }
+
+            .speech-bubble {
+                min-width: 280px;
+            }
+
+            .speech-bubble::before {
+                left: 50%;
+                top: -20px;
+                transform: translateX(-50%) rotate(90deg);
+            }
+
+            .speech-bubble::after {
+                left: 50%;
+                top: -12px;
+                transform: translateX(-50%) rotate(90deg);
+            }
+
+            .speech-text {
+                font-size: 1.4rem;
             }
             
             .cup {
                 width: 90px;
                 height: 110px;
             }
-            
-            .speech-text {
-                font-size: 1rem;
-            }
-
-            .table {
-                width: 95%;
-                height: 50px;
-            }
 
             .cups-container {
                 gap: 20px;
+            }
+
+            .score-item {
+                padding: 15px 25px;
             }
         }
     </style>
@@ -446,7 +464,7 @@
 <body>
     <div class="game-container">
         <h1>🩳 أين السروال؟ 🩳</h1>
-        <p class="subtitle">ساعد المصارع لمّح في إيجاد سرواله!</p>
+        <p class="subtitle">ساعد المصارع ريان في إيجاد سرواله!</p>
 
         <div class="score-board">
             <div class="score-item">
@@ -469,14 +487,10 @@
         </div>
 
         <div class="wrestler-section">
-            <img src="wrestler.png" alt="المصارع لمّح" class="wrestler-image">
+            <img src="wrestler.png" alt="المصارع ريان" class="wrestler-image">
             <div class="speech-bubble">
                 <div class="speech-text" id="speechText">ساعدوني أعرف وين سروالي؟ 🤔</div>
             </div>
-        </div>
-
-        <div class="table-section">
-            <div class="table"></div>
         </div>
 
         <div class="cups-container" id="cupsContainer">
@@ -549,7 +563,6 @@
                 for (let i = 0; i < this.cupsCount; i++) {
                     const wrapper = document.createElement('div');
                     wrapper.className = 'cup-wrapper';
-                    wrapper.dataset.index = i;
 
                     const cupNumber = document.createElement('div');
                     cupNumber.className = 'cup-number';
@@ -569,7 +582,6 @@
                     wrapper.appendChild(cup);
                     wrapper.appendChild(pants);
 
-                    wrapper.addEventListener('click', () => this.checkGuess(i));
                     this.cupsContainer.appendChild(wrapper);
                     
                     this.cupsArray.push({
@@ -581,9 +593,91 @@
                     });
                 }
 
+                // ربط أحداث الضغط
+                this.attachClickEvents();
+
                 this.canGuess = false;
                 this.speechText.textContent = 'ساعدوني أعرف وين سروالي؟ 🤔';
                 this.resultMessage.style.opacity = '0';
+            }
+
+            attachClickEvents() {
+                // الحصول على جميع الأكواب الحالية في DOM
+                const allWrappers = this.cupsContainer.querySelectorAll('.cup-wrapper');
+                allWrappers.forEach((wrapper, index) => {
+                    // إزالة الأحداث القديمة
+                    const newWrapper = wrapper.cloneNode(true);
+                    wrapper.replaceWith(newWrapper);
+                    
+                    // إضافة حدث جديد بناءً على الموقع الحالي
+                    newWrapper.addEventListener('click', () => {
+                        // البحث عن الكوب في cupsArray بناءً على عنصر wrapper
+                        const cupIndex = this.cupsArray.findIndex(item => 
+                            item.number.textContent === newWrapper.querySelector('.cup-number').textContent
+                        );
+                        
+                        // الآن نستخدم الرقم المعروض للوصول للكوب الصحيح
+                        const displayedNumber = parseInt(newWrapper.querySelector('.cup-number').textContent);
+                        this.checkGuessByNumber(displayedNumber);
+                    });
+                });
+            }
+
+            checkGuessByNumber(cupNumber) {
+                if (!this.canGuess || this.isPlaying) return;
+
+                this.canGuess = false;
+
+                // البحث عن الكوب بناءً على الرقم المعروض
+                const cupIndex = cupNumber - 1; // الرقم يبدأ من 1، الفهرس من 0
+                
+                // الحصول على جميع الأكواب حسب ترتيبها الحالي في DOM
+                const allWrappers = Array.from(this.cupsContainer.querySelectorAll('.cup-wrapper'));
+                const selectedWrapper = allWrappers[cupIndex];
+                
+                // البحث عن البيانات المقابلة في cupsArray
+                const cupData = this.cupsArray.find(item => item.wrapper === selectedWrapper);
+                
+                if (!cupData) return;
+
+                // رفع الكوب المختار
+                cupData.cup.classList.remove('covered');
+                cupData.cup.classList.add('lifted');
+
+                if (cupData.hasPants) {
+                    // إظهار السروال
+                    cupData.pants.classList.add('show');
+                    
+                    this.correct++;
+                    this.score += 10;
+                    this.speechText.textContent = 'كيييييف؟ وقف وقف 😱';
+                    this.resultMessage.textContent = '✅ أحسنت! وجدت السروال!';
+                    this.resultMessage.className = 'result-message success';
+                } else {
+                    this.wrong++;
+                    this.score = Math.max(0, this.score - 5);
+                    this.speechText.textContent = '😭😭😭😭😭😭😭😭😭';
+                    this.resultMessage.textContent = '❌ حاول مرة أخرى!';
+                    this.resultMessage.className = 'result-message fail';
+                    
+                    // إظهار السروال الصحيح بعد ثانية
+                    setTimeout(() => {
+                        this.cupsArray.forEach((item) => {
+                            if (item.hasPants) {
+                                item.cup.classList.remove('covered');
+                                item.cup.classList.add('lifted');
+                                item.pants.classList.add('show');
+                            }
+                        });
+                    }, 1000);
+                }
+
+                this.resultMessage.style.opacity = '1';
+                this.updateScore();
+
+                setTimeout(() => {
+                    this.createCups();
+                }, 3500);
             }
 
             async startGame() {
@@ -611,6 +705,9 @@
                 // خلط الأكواب بسرعة تصاعدية
                 this.speechText.textContent = 'الحين راح أخلط الأكواب... ركز! 🔄';
                 await this.shuffleCups();
+
+                // إعادة ربط أحداث الضغط بعد الخلط
+                this.attachClickEvents();
 
                 // المصارع يكذب
                 const wrongGuess = this.getWrongGuess();
@@ -696,64 +793,6 @@
 
                 // تبديل في المصفوفة
                 [this.cupsArray[idx1], this.cupsArray[idx2]] = [this.cupsArray[idx2], this.cupsArray[idx1]];
-
-                // تحديث الأرقام
-                this.cupsArray.forEach((item, index) => {
-                    item.number.textContent = index + 1;
-                    item.wrapper.dataset.index = index;
-                });
-
-                // تحديث موقع السروال
-                if (this.cupsArray[idx1].hasPants) {
-                    this.pantsPosition = idx1;
-                } else if (this.cupsArray[idx2].hasPants) {
-                    this.pantsPosition = idx2;
-                }
-            }
-
-            checkGuess(index) {
-                if (!this.canGuess || this.isPlaying) return;
-
-                this.canGuess = false;
-
-                // رفع الكوب المختار فقط
-                this.cupsArray[index].cup.classList.remove('covered');
-                this.cupsArray[index].cup.classList.add('lifted');
-
-                if (this.cupsArray[index].hasPants) {
-                    // إظهار السروال
-                    this.cupsArray[index].pants.classList.add('show');
-                    
-                    this.correct++;
-                    this.score += 10;
-                    this.speechText.textContent = 'كيييييف؟ وقف وقف 😱';
-                    this.resultMessage.textContent = '✅ أحسنت! وجدت السروال!';
-                    this.resultMessage.className = 'result-message success';
-                } else {
-                    this.wrong++;
-                    this.score = Math.max(0, this.score - 5);
-                    this.speechText.textContent = '😭😭😭😭😭😭😭😭😭';
-                    this.resultMessage.textContent = '❌ حاول مرة أخرى!';
-                    this.resultMessage.className = 'result-message fail';
-                    
-                    // إظهار السروال الصحيح بعد ثانية
-                    setTimeout(() => {
-                        this.cupsArray.forEach((item, i) => {
-                            if (item.hasPants) {
-                                item.cup.classList.remove('covered');
-                                item.cup.classList.add('lifted');
-                                item.pants.classList.add('show');
-                            }
-                        });
-                    }, 1000);
-                }
-
-                this.resultMessage.style.opacity = '1';
-                this.updateScore();
-
-                setTimeout(() => {
-                    this.createCups();
-                }, 3500);
             }
 
             getWrongGuess() {
