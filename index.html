@@ -736,7 +736,7 @@
                     this.resultMessage.textContent = '❌ حاول مرة أخرى!';
                     this.resultMessage.className = 'result-message fail';
                     
-                    // إظهار السروال الصحيح بعد ثانية
+                    // إظهار السروال الصحيح بعد 1.5 ثانية
                     setTimeout(() => {
                         this.cupsArray.forEach((item) => {
                             if (item.hasPants) {
@@ -745,15 +745,16 @@
                                 item.pants.classList.add('show');
                             }
                         });
-                    }, 1000);
+                    }, 1500);
                 }
 
                 this.resultMessage.style.opacity = '1';
                 this.updateScore();
 
+                // الانتظار 5 ثوان قبل بدء جولة جديدة
                 setTimeout(() => {
                     this.createCups();
-                }, 3500);
+                }, 5000);
             }
 
             async startGame() {
