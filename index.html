@@ -200,7 +200,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 200px;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            will-change: transform;
         }
 
         .cup-numbers-container {
@@ -802,7 +802,7 @@
             async shuffleCups() {
                 for (let i = 0; i < this.shuffleIterations; i++) {
                     // السرعة تتصاعد (تقل) مع كل تكرار
-                    const currentSpeed = Math.max(200, this.baseShuffleSpeed - (i * 40));
+                    const currentSpeed = Math.max(150, this.baseShuffleSpeed - (i * 50));
                     
                     // اختيار كوبين عشوائيين للتبديل
                     const idx1 = Math.floor(Math.random() * this.cupsCount);
@@ -811,28 +811,15 @@
                         idx2 = Math.floor(Math.random() * this.cupsCount);
                     }
 
-                    // حفظ مرجع العناصر قبل التبديل
-                    const cup1 = this.cupsArray[idx1].cup;
-                    const cup2 = this.cupsArray[idx2].cup;
+                    // تبديل الأكواب فعلياً في DOM بحركة سلسة
+                    await this.swapCups(idx1, idx2, currentSpeed);
 
-                    // تأثير الحركة
-                    cup1.style.animation = 'shuffle 0.4s ease-in-out';
-                    cup2.style.animation = 'shuffle 0.4s ease-in-out';
-
-                    await this.sleep(200);
-
-                    // تبديل الأكواب فعلياً في DOM
-                    await this.swapCups(idx1, idx2);
-
-                    // إزالة الأنيميشن
-                    cup1.style.animation = '';
-                    cup2.style.animation = '';
-
-                    await this.sleep(currentSpeed);
+                    // فترة قصيرة جداً بين التبديلات
+                    await this.sleep(50);
                 }
             }
 
-            async swapCups(idx1, idx2) {
+            async swapCups(idx1, idx2, speed = 400) {
                 const container = this.cupsContainer;
                 
                 // الحصول على العناصر
@@ -844,13 +831,14 @@
                 const rect2 = wrapper2.getBoundingClientRect();
                 const distance = rect2.left - rect1.left;
 
-                // تطبيق الحركة
+                // تطبيق الحركة بسلاسة
+                const transitionTime = speed / 1000;
                 wrapper1.style.transform = `translateX(${distance}px)`;
                 wrapper2.style.transform = `translateX(${-distance}px)`;
-                wrapper1.style.transition = 'transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-                wrapper2.style.transition = 'transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                wrapper1.style.transition = `transform ${transitionTime}s cubic-bezier(0.4, 0.0, 0.2, 1)`;
+                wrapper2.style.transition = `transform ${transitionTime}s cubic-bezier(0.4, 0.0, 0.2, 1)`;
 
-                await this.sleep(400);
+                await this.sleep(speed);
 
                 // إزالة التحويلات
                 wrapper1.style.transform = '';
