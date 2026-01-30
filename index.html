@@ -209,14 +209,22 @@
             gap: 30px;
             position: absolute;
             top: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: fit-content;
             pointer-events: none;
             z-index: 20;
         }
 
         .cup-number-fixed {
+            width: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cup-number-fixed-inner {
             width: 45px;
             height: 45px;
             background: linear-gradient(135deg, var(--accent), var(--orange-accent));
@@ -490,6 +498,10 @@
             }
 
             .cup-number-fixed {
+                width: 90px;
+            }
+
+            .cup-number-fixed-inner {
                 width: 35px;
                 height: 35px;
                 font-size: 1.1rem;
@@ -527,10 +539,10 @@
         </div>
 
         <div class="wrestler-section">
-            <img src="wrestler.png" alt="المصارع ريان" class="wrestler-image">
             <div class="speech-bubble">
                 <div class="speech-text" id="speechText">ساعدوني أعرف وين سروالي؟ 🤔</div>
             </div>
+            <img src="wrestler.png" alt="المصارع ريان" class="wrestler-image">
         </div>
 
         <div class="cups-container" id="cupsContainer">
@@ -606,16 +618,21 @@
                 numbersContainer.id = 'cupsNumbers';
                 
                 for (let i = 0; i < this.cupsCount; i++) {
-                    // إنشاء الرقم الثابت
+                    // إنشاء الرقم الثابت مع wrapper
+                    const numberWrapper = document.createElement('div');
+                    numberWrapper.className = 'cup-number-fixed';
+                    
                     const fixedNumber = document.createElement('div');
-                    fixedNumber.className = 'cup-number-fixed';
+                    fixedNumber.className = 'cup-number-fixed-inner';
                     fixedNumber.textContent = i + 1;
-                    numbersContainer.appendChild(fixedNumber);
+                    
+                    numberWrapper.appendChild(fixedNumber);
+                    numbersContainer.appendChild(numberWrapper);
 
                     // إنشاء الكوب
                     const wrapper = document.createElement('div');
                     wrapper.className = 'cup-wrapper';
-                    wrapper.dataset.originalIndex = i; // حفظ الفهرس الأصلي
+                    wrapper.dataset.originalIndex = i;
 
                     const cup = document.createElement('div');
                     cup.className = 'cup lifted';
