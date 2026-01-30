@@ -534,8 +534,8 @@
         </div>
 
         <div class="difficulty-selector">
-            <button class="difficulty-btn active" data-cups="4" data-speed="800">سهل (4 أكواب)</button>
-            <button class="difficulty-btn" data-cups="5" data-speed="500">صعب (5 أكواب)</button>
+            <button class="difficulty-btn active" data-cups="4" data-speed="700">سهل (4 أكواب)</button>
+            <button class="difficulty-btn" data-cups="5" data-speed="550">صعب (5 أكواب)</button>
         </div>
 
         <div class="wrestler-section">
@@ -567,8 +567,8 @@
                 this.score = 0;
                 this.correct = 0;
                 this.wrong = 0;
-                this.baseShuffleSpeed = 600;
-                this.shuffleIterations = 10;
+                this.baseShuffleSpeed = 700;
+                this.shuffleIterations = 14;
                 this.cupsArray = [];
                 
                 this.init();
@@ -601,7 +601,7 @@
                         
                         this.cupsCount = parseInt(e.target.dataset.cups);
                         this.baseShuffleSpeed = parseInt(e.target.dataset.speed);
-                        this.shuffleIterations = this.cupsCount === 5 ? 15 : 10;
+                        this.shuffleIterations = this.cupsCount === 5 ? 20 : 14;
                         this.createCups();
                     });
                 });
@@ -802,7 +802,7 @@
             async shuffleCups() {
                 for (let i = 0; i < this.shuffleIterations; i++) {
                     // السرعة تتصاعد (تقل) مع كل تكرار
-                    const currentSpeed = Math.max(150, this.baseShuffleSpeed - (i * 50));
+                    const currentSpeed = Math.max(230, this.baseShuffleSpeed - (i * 45));
                     
                     // اختيار كوبين عشوائيين للتبديل
                     const idx1 = Math.floor(Math.random() * this.cupsCount);
@@ -814,8 +814,8 @@
                     // تبديل الأكواب فعلياً في DOM بحركة سلسة
                     await this.swapCups(idx1, idx2, currentSpeed);
 
-                    // فترة قصيرة جداً بين التبديلات
-                    await this.sleep(50);
+                    // الانتظار بين التبديلات
+                    await this.sleep(120);
                 }
             }
 
